@@ -1,0 +1,52 @@
+services:
+  web:
+    container_name: cdi_ielts-web
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8700:8700"
+    depends_on:
+      db:
+        condition: service_started
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - cdi_network
+
+  db:
+    container_name: cdi_ielts-db
+    image: postgres:15
+    restart: on-failure
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5436:5436"
+    networks:
+      - cdi_network
+
+  bot:
+    container_name: cdi_ielts-bot
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - ./bot/.env
+    depends_on:
+      web:
+        condition: service_started
+    networks:
+      - cdi_network
+
+volumes:
+  postgres_data:
+
+networks:
+  cdi_network:
+    driver: bridge

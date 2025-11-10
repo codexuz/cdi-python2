@@ -1,0 +1,8 @@
+#  bot/app/otp.py
+from __future__ import annotations
+
+import random
+
+
+def generate_otp() -> str:
+    return f"{random.randint(0, 999999):06d}"
