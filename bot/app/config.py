@@ -19,8 +19,9 @@ class Settings(BaseSettings):
 
     model_config = {
         "case_sensitive": False,
-        "env_file": ".env",
-        "env_file_encoding": "utf-8",
+        # Remove env_file for containerized deployment - use environment variables directly
+        # "env_file": ".env",
+        # "env_file_encoding": "utf-8",
     }
 
 
