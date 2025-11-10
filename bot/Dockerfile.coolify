@@ -20,11 +20,11 @@ COPY . .
 # Make entrypoint.sh executable
 RUN chmod +x entrypoint.sh
 
-# Set default port for health server
+# Use BOT_PORT environment variable, default to 8081
 ENV BOT_PORT=8081
 EXPOSE $BOT_PORT
 
-# Health check for the bot
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD curl -f http://localhost:$BOT_PORT/health || exit 1
 

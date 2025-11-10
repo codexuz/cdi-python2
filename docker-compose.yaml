@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8700:8700"
+      - "${PORT:-8700}:${PORT:-8700}"
     depends_on:
       db:
         condition: service_started
@@ -14,6 +14,8 @@ services:
     restart: on-failure
     networks:
       - cdi_network
+    environment:
+      - PORT=${PORT:-8700}
 
   db:
     container_name: cdi_ielts-db
@@ -26,7 +28,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5436:5436"
+      - "${POSTGRES_PORT:-5432}:5432"
     networks:
       - cdi_network
 
@@ -38,6 +40,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      - BOT_PORT=${BOT_PORT:-8081}
+    ports:
+      - "${BOT_PORT:-8081}:${BOT_PORT:-8081}"
     depends_on:
       web:
         condition: service_started

@@ -1,4 +1,3 @@
-# apps/runner.sh
 #!/bin/sh
 set -e
 
@@ -8,9 +7,9 @@ pip install --no-cache-dir -r requirements.txt
 echo "👉 Running Black formatter..."
 black .
 
-POSTGRES_HOST=${POSTGRES_HOST:-db}
+# Use environment variables for database connection
+POSTGRES_HOST=${POSTGRES_HOST:-localhost}
 POSTGRES_PORT=${POSTGRES_PORT:-5432}
-
 
 echo "⏳  Waiting for PostgreSQL at ${POSTGRES_HOST}:${POSTGRES_PORT} …"
 while ! nc -z "$POSTGRES_HOST" "$POSTGRES_PORT"; do
@@ -27,5 +26,5 @@ python manage.py migrate --noinput
 echo "📦  Collecting static files …"
 python manage.py collectstatic --noinput
 
-echo "🚦  Starting server …"
+echo "🚦  Starting server on port ${PORT:-8700} …"
 exec "$@"

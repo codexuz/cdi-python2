@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
     health_host: str = Field(default="0.0.0.0", alias="HEALTH_HOST")
     health_port: int = Field(default=8081, alias="HEALTH_PORT")
+    
+    # Support for BOT_PORT environment variable (for Coolify)
+    bot_port: int = Field(default=8081, alias="BOT_PORT")
 
     model_config = {
         "case_sensitive": False,

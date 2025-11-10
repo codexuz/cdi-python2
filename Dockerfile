@@ -17,6 +17,8 @@ RUN pip install --no-cache-dir black
 
 COPY . .
 
+EXPOSE ${PORT:-8700}
+
 ENTRYPOINT ["sh", "runner.sh"]
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8700"]
+CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:${PORT:-8700}"]
