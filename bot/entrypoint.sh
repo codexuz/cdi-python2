@@ -3,9 +3,9 @@
 set -e
 
 # .env bo'lsa sourced
-if [ -f ".env" ]; then
+if [ -f "../.env" ]; then
   set -o allexport
-  source .env
+  source ../.env
   set +o allexport
 fi
 

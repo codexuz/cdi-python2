@@ -37,7 +37,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file:
-      - ./bot/.env
+      - .env
     depends_on:
       web:
         condition: service_started
